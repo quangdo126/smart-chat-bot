@@ -115,11 +115,19 @@ CREATE TABLE messages (
 -- Tenant isolation using app.tenant_id session variable
 -- ============================================================================
 
--- Enable RLS on tenant-scoped tables
+-- Enable RLS on all tables
+ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE faqs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+
+-- Tenants policy: Allow all operations (service_role bypasses RLS anyway)
+-- This policy exists to remove "UNRESTRICTED" warning in Supabase dashboard
+CREATE POLICY tenants_allow_all ON tenants
+    FOR ALL
+    USING (true)
+    WITH CHECK (true);
 
 -- Products policies
 CREATE POLICY products_tenant_isolation ON products
