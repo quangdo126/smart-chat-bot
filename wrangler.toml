@@ -1,0 +1,42 @@
+name = "smart-chat-bot"
+main = "src/index.ts"
+compatibility_date = "2026-02-01"
+
+# Workers configuration
+workers_dev = true
+minify = true
+
+[vars]
+ENVIRONMENT = "production"
+
+# KV namespace for rate limiting (optional)
+# Uncomment and set id after creating namespace via:
+# wrangler kv:namespace create "RATE_LIMIT"
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "your-kv-namespace-id"
+
+# Secrets - set via: wrangler secret put <NAME>
+# Required secrets:
+#   wrangler secret put SUPABASE_URL
+#   wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+#   wrangler secret put VOYAGE_API_KEY
+#
+# Optional secrets:
+#   wrangler secret put CLAUDIBLE_API_KEY
+
+# Production environment
+[env.production]
+name = "smart-chat-bot"
+workers_dev = false
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+# Staging environment (optional)
+[env.staging]
+name = "smart-chat-bot-staging"
+workers_dev = true
+
+[env.staging.vars]
+ENVIRONMENT = "staging"

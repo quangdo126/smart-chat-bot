@@ -1,0 +1,30 @@
+{
+  "name": "smart-chat-bot",
+  "version": "1.0.0",
+  "description": "Multi-tenant AI chatbot with RAG for Shopify dropshipping",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "deploy": "wrangler deploy",
+    "deploy:api": "wrangler deploy",
+    "deploy:api:staging": "wrangler deploy --env staging",
+    "deploy:api:production": "wrangler deploy --env production",
+    "deploy:widget": "cd widget && npm run build && npx wrangler pages deploy dist --project-name=smart-chat-widget",
+    "deploy:widget:production": "cd widget && npm run build && npx wrangler pages deploy dist --project-name=smart-chat-widget --branch=main",
+    "deploy:all": "npm run deploy:api && npm run deploy:widget",
+    "secrets:set": "echo 'Run: wrangler secret put SUPABASE_URL && wrangler secret put SUPABASE_SERVICE_ROLE_KEY && wrangler secret put VOYAGE_API_KEY'"
+  },
+  "keywords": ["chatbot", "rag", "shopify", "cloudflare-workers", "hono"],
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.7.0",
+    "@supabase/supabase-js": "^2.50.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.6.0",
+    "typescript": "^5.7.0",
+    "@cloudflare/workers-types": "^4.20260210.0"
+  }
+}

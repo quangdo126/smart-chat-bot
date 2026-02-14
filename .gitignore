@@ -1,0 +1,257 @@
+# Node.js / npm
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
+*.pack
+.yarn-integrity
+dist/
+build/
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Environment variables (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+.env.test.local
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.sublime-workspace
+.sublime-project
+*.sublime-project
+*.sublime-workspace
+.history/
+.vscode-test/
+*.code-workspace
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Test coverage
+coverage/
+.nyc_output/
+lcov.info
+*.lcov
+
+# Python (for RAG/AI components)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.python-version
+*.poetry.lock
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Virtual environment directories
+.venv
+venv
+ENV
+env
+.virtualenv
+
+# Python development
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Machine Learning / Data Science
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.joblib
+*.model
+*.weights
+*.onnx
+mlruns/
+.mlflow/
+wandb/
+experiments/
+models/
+datasets/
+*.csv
+*.parquet
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+.tmp/
+tmp/
+temp/
+
+# Lock files (optional - uncomment if you want to track these)
+# package-lock.json
+# yarn.lock
+# poetry.lock
+# pipenv files
+
+# Logs
+logs/
+*.log
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Generated files
+*.generated.ts
+*.generated.js
+
+# Build artifacts
+out/
+.next/
+.nuxt/
+.cache/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.venv/
+
+# Electron
+dist_electron/
+
+# IDE specific
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.project
+.pydevproject
+.ropeproject
+
+# VS Code specific
+.vscode-test
+.vscode/*.log
+.vscode/extensions
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# API Keys and secrets (CRITICAL)
+secrets/
+.secrets/
+credentials.json
+aws-credentials
+.aws/credentials
+
+# Local development
+.local/
+.docker/compose/override.yml
+docker-compose.override.yml
+
+# Backup and recovery
+*.bak
+*.swp
+*~
+.directory
+
+# CI/CD artifacts
+.github/workflows/*.log
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+$RECYCLE.BIN/
+ehthumbs.db
+
+# Linux
+.directory
+
+# Dependencies
+node_modules/
+vendor/
+
+# Output directories
+output/
+results/
+reports/
+
+# Temporary build
+.cache/
+.webpack/
+
+# Cloudflare Workers
+.wrangler/
+.dev.vars
