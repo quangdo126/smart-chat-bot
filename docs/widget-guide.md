@@ -11,6 +11,7 @@ Complete guide for embedding and customizing the Smart Chat Bot widget on any we
 - [Color Customization](#color-customization)
 - [Example Configurations](#example-configurations)
 - [Widget API](#widget-api)
+- [Turnstile CAPTCHA Protection](#turnstile-captcha-protection)
 - [Platform Integration](#platform-integration)
 - [Troubleshooting](#troubleshooting)
 
@@ -345,6 +346,119 @@ window.SmartChatWidget.applyTheme({
   }
 </script>
 ```
+
+---
+
+## Turnstile CAPTCHA Protection
+
+Cloudflare Turnstile provides invisible CAPTCHA protection to prevent bot abuse. This feature is optional and FREE.
+
+### Why Use Turnstile
+
+- **Invisible**: No user interaction required (unlike reCAPTCHA)
+- **Free**: No cost for any volume
+- **Privacy-focused**: No tracking or data collection
+- **Fast**: Minimal latency impact
+
+### Setup Instructions
+
+#### Step 1: Get Turnstile Keys
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. Navigate to **Turnstile** in the sidebar
+3. Click **Add site**
+4. Configure:
+   - **Site name**: Your app name (e.g., "Smart Chat Widget")
+   - **Domain**: Your widget's domain (e.g., `smart-chat-widget.pages.dev`)
+   - **Widget mode**: Select **Invisible**
+5. Click **Create**
+6. Copy:
+   - **Site Key** (public, used in widget)
+   - **Secret Key** (private, used in API)
+
+#### Step 2: Configure API Secret
+
+Set the secret key as a Cloudflare Workers secret:
+
+```bash
+wrangler secret put TURNSTILE_SECRET_KEY
+# Paste your secret key when prompted
+```
+
+#### Step 3: Add Site Key to Widget
+
+Add the `data-turnstile-key` attribute to your embed script:
+
+```html
+<script
+  src="https://smart-chat-widget.pages.dev/embed.js"
+  data-tenant="my-store"
+  data-api="https://smart-chat-bot.quangdo1206.workers.dev"
+  data-turnstile-key="0x4AAAAAAXXXXXXXXXXXXXXXX">
+</script>
+```
+
+### Configuration Examples
+
+#### With Turnstile Enabled
+
+```html
+<script
+  src="https://smart-chat-widget.pages.dev/embed.js"
+  data-tenant="my-store"
+  data-api="https://smart-chat-bot.quangdo1206.workers.dev"
+  data-turnstile-key="0x4AAAAAAXXXXXXXXXXXXXXXX"
+  data-theme="light">
+</script>
+```
+
+#### Without Turnstile (Default)
+
+If `data-turnstile-key` is not provided, CAPTCHA verification is skipped:
+
+```html
+<script
+  src="https://smart-chat-widget.pages.dev/embed.js"
+  data-tenant="my-store"
+  data-api="https://smart-chat-bot.quangdo1206.workers.dev">
+</script>
+```
+
+### How It Works
+
+1. Widget loads Turnstile script invisibly
+2. Turnstile generates a verification token
+3. Token is sent with each chat API request via `X-Turnstile-Token` header
+4. API verifies token with Cloudflare before processing request
+5. Invalid/missing tokens return 403 error (only when Turnstile is configured)
+
+### Testing Turnstile
+
+Cloudflare provides test keys for development:
+
+| Key Type | Value | Behavior |
+|----------|-------|----------|
+| Always passes | `1x00000000000000000000AA` | Token always valid |
+| Always fails | `2x00000000000000000000AB` | Token always invalid |
+| Forces challenge | `3x00000000000000000000FF` | Shows interactive challenge |
+
+Use test site key in widget and corresponding secret key in API for testing.
+
+### Troubleshooting Turnstile
+
+**Problem**: "CAPTCHA verification required" error
+
+**Solution**:
+1. Verify `data-turnstile-key` is correct
+2. Check browser console for Turnstile loading errors
+3. Ensure widget domain matches domain configured in Cloudflare
+
+**Problem**: "CAPTCHA verification failed" error
+
+**Solution**:
+1. Verify `TURNSTILE_SECRET_KEY` is set correctly via `wrangler secret put`
+2. Check API logs for Turnstile verification response
+3. Ensure site key and secret key are from the same Turnstile site
 
 ---
 

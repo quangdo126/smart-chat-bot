@@ -9,6 +9,9 @@ import { logger } from 'hono/logger';
 import type { Env, ContextVariables, ApiResponse } from './types/index.js';
 import { chatRoutes } from './routes/chat-routes.js';
 import { healthRoutes } from './routes/health-routes.js';
+import { rateLimitMiddleware } from './middleware/rate-limit.js';
+import { antiSpamMiddleware } from './middleware/anti-spam.js';
+import { turnstileMiddleware } from './middleware/turnstile.js';
 
 // Create Hono app with typed environment and context variables
 const app = new Hono<{ Bindings: Env; Variables: ContextVariables }>();
@@ -19,7 +22,7 @@ app.use(
   cors({
     origin: '*',
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization', 'X-Tenant-ID'],
+    allowHeaders: ['Content-Type', 'Authorization', 'X-Tenant-ID', 'X-Turnstile-Token'],
     exposeHeaders: ['Content-Length'],
     maxAge: 86400,
     credentials: false,
@@ -50,6 +53,15 @@ app.use('/api/*', async (c, next) => {
   }
   await next();
 });
+
+// Rate limiting middleware for chat routes
+app.use('/api/chat/*', rateLimitMiddleware);
+
+// Anti-spam middleware for chat routes
+app.use('/api/chat/*', antiSpamMiddleware);
+
+// Turnstile CAPTCHA verification for chat routes (optional, skipped if not configured)
+app.use('/api/chat/*', turnstileMiddleware);
 
 // Mount routes
 app.route('/api/chat', chatRoutes);

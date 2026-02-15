@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'preact/hooks'
 import { useChat } from './hooks/use-chat'
+import { useTurnstile } from './hooks/use-turnstile'
 import { ChatMessages } from './components/chat-messages'
 import { ChatInput } from './components/chat-input'
 import { CartButton } from './components/cart-button'
@@ -10,10 +11,14 @@ interface AppProps {
   apiUrl: string
   storeName?: string
   storeAvatar?: string
+  turnstileSiteKey?: string | null
 }
 
-export function App({ tenantId, apiUrl, storeName = 'Shopping Support', storeAvatar }: AppProps) {
+export function App({ tenantId, apiUrl, storeName = 'Shopping Support', storeAvatar, turnstileSiteKey }: AppProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Initialize Turnstile (if configured)
+  const { token: turnstileToken } = useTurnstile({ siteKey: turnstileSiteKey || null })
 
   const {
     messages,
@@ -22,7 +27,7 @@ export function App({ tenantId, apiUrl, storeName = 'Shopping Support', storeAva
     checkoutUrl,
     sendMessage,
     clearMessages
-  } = useChat({ apiUrl, tenantId })
+  } = useChat({ apiUrl, tenantId, turnstileToken })
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })

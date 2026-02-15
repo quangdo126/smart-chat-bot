@@ -6,6 +6,8 @@ import './styles.css'
 const params = new URLSearchParams(window.location.search)
 const tenantId = params.get('tenant') || ''
 const apiUrl = params.get('api') || 'https://smart-chat-bot.quangdo1206.workers.dev'
+// Turnstile site key (optional - if not provided, CAPTCHA is disabled)
+const turnstileSiteKey = params.get('turnstile') || null
 
 // Theme configuration interface
 interface ThemeConfig {
@@ -130,6 +132,7 @@ render(
     tenantId={tenantId}
     apiUrl={apiUrl}
     storeName={storeName}
+    turnstileSiteKey={turnstileSiteKey}
   />,
   document.getElementById('app')!
 )

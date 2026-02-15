@@ -11,6 +11,7 @@
   var apiUrl = script.getAttribute('data-api') || '';
   var theme = script.getAttribute('data-theme') || '';
   var widgetUrl = script.getAttribute('data-widget-url') || script.src.replace('/embed.js', '/');
+  var turnstileKey = script.getAttribute('data-turnstile-key') || '';
 
   // Build iframe URL
   var iframeSrc = widgetUrl + '?tenant=' + encodeURIComponent(tenant);
@@ -19,6 +20,9 @@
   }
   if (theme) {
     iframeSrc += '&theme=' + encodeURIComponent(theme);
+  }
+  if (turnstileKey) {
+    iframeSrc += '&turnstile=' + encodeURIComponent(turnstileKey);
   }
 
   // Create toggle button

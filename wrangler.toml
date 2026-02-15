@@ -9,12 +9,10 @@ minify = true
 [vars]
 ENVIRONMENT = "production"
 
-# KV namespace for rate limiting (optional)
-# Uncomment and set id after creating namespace via:
-# wrangler kv:namespace create "RATE_LIMIT"
-# [[kv_namespaces]]
-# binding = "RATE_LIMIT"
-# id = "your-kv-namespace-id"
+# KV namespace for rate limiting
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "5df6f7d95d4c44ffa79d55bc219cad4e"
 
 # Secrets - set via: wrangler secret put <NAME>
 # Required secrets:
@@ -24,6 +22,7 @@ ENVIRONMENT = "production"
 #
 # Optional secrets:
 #   wrangler secret put CLAUDIBLE_API_KEY
+#   wrangler secret put TURNSTILE_SECRET_KEY  # Cloudflare Turnstile (invisible CAPTCHA)
 
 # Production environment
 [env.production]

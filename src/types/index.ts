@@ -8,6 +8,7 @@
 export interface Env {
   // KV namespaces
   CHAT_SESSIONS: KVNamespace;
+  RATE_LIMIT?: KVNamespace;  // Optional, graceful fallback if not configured
 
   // Environment variables
   ENVIRONMENT: string;
@@ -15,6 +16,8 @@ export interface Env {
   SUPABASE_SERVICE_ROLE_KEY: string;
   VOYAGE_API_KEY: string;
   CLAUDIBLE_API_KEY?: string;
+  // Cloudflare Turnstile secret key (optional - skip verification if not set)
+  TURNSTILE_SECRET_KEY?: string;
 }
 
 /**

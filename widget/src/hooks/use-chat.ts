@@ -4,6 +4,7 @@ import type { Message, Product, SSEMessage } from '../types'
 interface UseChatOptions {
   apiUrl: string
   tenantId: string
+  turnstileToken?: string | null
 }
 
 interface UseChatReturn {
@@ -15,7 +16,7 @@ interface UseChatReturn {
   clearMessages: () => void
 }
 
-export function useChat({ apiUrl, tenantId }: UseChatOptions): UseChatReturn {
+export function useChat({ apiUrl, tenantId, turnstileToken }: UseChatOptions): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [cartId, setCartId] = useState<string | null>(null)
@@ -53,12 +54,19 @@ export function useChat({ apiUrl, tenantId }: UseChatOptions): UseChatReturn {
         content: m.content
       }))
 
+      // Build request headers
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': tenantId,
+      }
+      // Include Turnstile token if available
+      if (turnstileToken) {
+        headers['X-Turnstile-Token'] = turnstileToken
+      }
+
       const response = await fetch(`${apiUrl}/api/chat/agent/stream`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Tenant-ID': tenantId,
-        },
+        headers,
         body: JSON.stringify({
           messages: apiMessages,
           sessionId: sessionIdRef.current
@@ -237,7 +245,7 @@ export function useChat({ apiUrl, tenantId }: UseChatOptions): UseChatReturn {
       setIsLoading(false)
       abortControllerRef.current = null
     }
-  }, [apiUrl, tenantId, cartId, isLoading])
+  }, [apiUrl, tenantId, turnstileToken, cartId, isLoading])
 
   const clearMessages = useCallback(() => {
     setMessages([])
